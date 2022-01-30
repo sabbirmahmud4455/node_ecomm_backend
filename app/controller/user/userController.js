@@ -22,7 +22,6 @@ router.get('/:id', async (req, res) => {
 
 //create user
 router.post('/', async (req, res) => {
-
   const response = new Response(res)
 
   try {
@@ -30,15 +29,12 @@ router.post('/', async (req, res) => {
 
 	if(error) return response.badRequest(error);
 
-	const {userName, password} = data;
+	const {name, email, phone, password} = data;
 
+	const user = await userModule.store(name, email, phone, password)
+	// return res.json(user);
 
-	const user = await userModule.store(userName, password)
-
-
-	return res.json(user);
-
-	// return response.created(user);
+	return response.created(user);
 
   } catch (error) {
 	const message = error.message ? error.message : 'Server error';

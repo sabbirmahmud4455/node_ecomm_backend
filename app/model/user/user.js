@@ -8,7 +8,16 @@ const idColumn = 'userId'
 
 const getAll = async () => {
 
-	const sql = `SELECT * FROM ${tableName}`;
+	const sql = 
+	`SELECT 
+		id,
+		name,
+		email,
+		phone,
+		image,
+		role_id
+	
+	FROM ${tableName}`;
 
  	const users = await db.query(sql);
 
@@ -22,10 +31,10 @@ const find = async (id) => {
 	return user;
 }
 
-const store = async (username, password) => {
-	
-	const sql = `INSERT INTO ${tableName} VALUES (null,?,?);`
-	return await db.query(sql, [username, password]);
+const store = async (name, email, phone, password) => {
+
+	const sql = `INSERT INTO users (name, email, phone, password) VALUE ('${name}', '${email}', '${phone}', '${password}')`
+	return await db.query(sql);
 
 }
 
