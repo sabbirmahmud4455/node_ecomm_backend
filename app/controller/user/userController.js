@@ -46,6 +46,7 @@ router.post('/', async (req, res) => {
 
 // update user by id
 router.put('/update/:id', async (req, res) => {
+
 	const response = new Response(res);
 	const id = req.params.id;
 
@@ -55,13 +56,13 @@ router.put('/update/:id', async (req, res) => {
 
 		if (error) return response.badRequest(error);
 
-		const {userName, password} = data;
+		const {name, email, phone} = data;
 
 		const user = await userModule.find(id);
 
 		if (user.length == 0) return response.notFound('user not found')
 
-	    const update = await userModule.update(id ,userName, password);
+	    const update = await userModule.update(id ,name, email, phone);
 
 		return response.ok(update);
 
@@ -70,6 +71,24 @@ router.put('/update/:id', async (req, res) => {
 		return response.internalServerError(error);
 	}
 
+
+})
+
+router.delete('/:id', async (req, res) => {
+	const response = new Response(res);
+	const id = req.params.id;
+	
+	try {
+		const user = await userModule.find(id);
+
+		if (user.length == 0) return response.notFound('user not found');
+		
+		const destroy = await userModule.destroy(id);
+
+		return response.ok(destroy);
+	} catch (error) {
+		return response.internalServerError(error);
+	}
 
 })
 

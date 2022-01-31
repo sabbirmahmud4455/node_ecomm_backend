@@ -1,6 +1,6 @@
 const db = require('../../../db');
 const tableName = 'users';
-const idColumn = 'userId'
+const idColumn = 'id'
 
 
 // create your model methods here
@@ -32,21 +32,34 @@ const find = async (id) => {
 }
 
 const store = async (name, email, phone, password) => {
-
 	const sql = `INSERT INTO users (name, email, phone, password) VALUE ('${name}', '${email}', '${phone}', '${password}')`
 	return await db.query(sql);
-
 }
 
-const update = async (userName, password) => {
-	return 'update'
+const update = async (id ,name, email, phone) => {
+	const sql = `
+		UPDATE ${tableName} SET 
+			name = '${name}',
+			email = '${email}',
+			phone = '${phone}'
+		WHERE id = ${id}
+	`;
+
+	return await db.query(sql);
+}
+
+const destroy = async (id) => {
+	const sql = `DELETE FROM ${tableName} WHERE id = ${id}`;
+
+	return await db.query(sql);
 }
 
 module.exports = {
 	getAll,
 	find, 
 	store,
-	update
+	update,
+	destroy
 }
 	
 	
