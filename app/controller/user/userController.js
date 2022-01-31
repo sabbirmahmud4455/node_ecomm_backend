@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { validateRequest } = require('../../validation/user/userValidator');
 const Response = require('../../../utils/response');
-const { response } = require('express');
 
 const userModule = require('../../model/user/user');
 

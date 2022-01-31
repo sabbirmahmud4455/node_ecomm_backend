@@ -1,8 +1,8 @@
 // DECLARATION
 const express = require('express');
 const app = express();
-var cors = require('cors');
-
+const cors = require('cors');
+require('dotenv').config();
 const { registerRoutes } = require('./router/routes');
 const port = 3000;
 
@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(cors({origin: 'http://localhost:8080'}));
 
 
-// MIDDLEWARES
+// MIDDLEWARE
 
 
 // ROUTES
