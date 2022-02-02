@@ -2,11 +2,16 @@ const express = require('express');
 const router = express.Router();
 const { validateRequest } = require('../../validation/user/userValidator');
 const Response = require('../../../utils/response');
+const bcrypt = require('bcrypt');
+
+const auth = require('../../middleware/auth')
+
 
 const userModule = require('../../model/user/user');
 
 // get all users
 router.get('/', async (req, res) => {
+
 	const getAll = await userModule.getAll();	
 	res.json(getAll);
 })
@@ -30,7 +35,11 @@ router.post('/', async (req, res) => {
 
 	const {name, email, phone, password} = data;
 
-	const user = await userModule.store(name, email, phone, password)
+	const passwordHash = bcrypt.hashSync(password, 10);
+
+	res.json(passwordHash);
+
+	const user = await userModule.store(name, email, phone, passwordHash)
 	// return res.json(user);
 
 	return response.created(user);

@@ -1,26 +1,34 @@
 require('dotenv').config();
-
+const Response = require('../../utils/response');
 const jwt = require('jsonwebtoken');
 
-function auth(req, res, next) {
-    const authHeader = req.headers['authorization'];
-  
-    // console.log('authHeader');
-  
-    // const token = authHeader && authHeader.split(' ')[1];
-  
-    // if (token == null) return res.sendStatus(401);
-  
-    // jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user)) => {
-    //     if (condition) return res.sendStatus(403);
-  
-    //     return next(); 
-    // }
-    
-  
-    return next;
-}
 
-module.exports = {
-    auth
+module.exports = function auth(req, res, next) {
+
+    const response = new Response(res)
+
+    const authHeader = req.headers['authorization'];
+
+    // return res.json(authHeader);
+  
+    if (authHeader == null) return response.badRequest('Access Denied');
+
+    const bear = authHeader.split(' ');
+    const bearToken = bear[1];
+
+    req.token = bearToken
+
+    jwt.verify(req.token, 'asddsfasdff', (err, authData) => {
+        if (err) return response.badRequest('This route protected by authentication token not match');
+        // res.json(authData.user)
+
+        res.user = 'asdf';
+
+
+        res.header(
+            'authenticationToken', "Bearer "+ req.headers['authorization']
+        )
+        next()
+    })
+
 }

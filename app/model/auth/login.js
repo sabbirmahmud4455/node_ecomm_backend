@@ -1,11 +1,12 @@
 const db = require('../../../db');
 const tableName = 'users'
 
-const login = async (email, password) => {
-    const sql = `SELECT id, name, email 
+const login = async (email) => {
+    const sql = `SELECT id, name, email , password
                 FROM users 
                 WHERE  email ='${email}'
-                AND password = '${password}'`;
+                LIMIT 1
+                `;
 
     return await db.query(sql);
 }

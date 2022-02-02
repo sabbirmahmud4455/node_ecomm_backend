@@ -5,36 +5,47 @@ const { validateRequest } = require('../../validation/auth/loginValidator');
 const Response = require('../../../utils/response');
 const loginModel = require('../../model/auth/login');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 
 
 router.post('/', async (req, res) => {
     const response = new Response(res);
 
-    try {
-        const {data, error} = validateRequest(req, 'login');
+    // return res.json(req.body)
 
-        if (error) return response.badRequest(error);
+    const {data, error} = validateRequest(req, 'login');
+
+    if (error) return response.badRequest(error);
+
+    try {
         
         const {email, password} = data;
 
-    
-        // const login_user = await loginModel.login(email, password)
-        const login_user = {name: 'helkadf' };
-
-        
+        const login_user = await loginModel.login(email)
 
         // process.env.ACCESS_TOKEN_SECRET = 'hello';
 
-        if (user.length == 0) return response.notFound('user not found');
+        if (login_user.length == 0) return response.notFound('user not found');
 
-        const jwt_tt = jwt.sign({user: login_user}, 'secreteKey', (err, token) => {
-            res.json({
-                token
-            })
+        const verified = bcrypt.compareSync(password, login_user[0].password);
+
+        if (verified == false) response.badRequest('Password not match');
+
+        const user = {
+            id: login_user[0].id,
+            name: login_user[0].name,
+            email: login_user[0].email,
+        }
+
+        jwt.sign({user: user}, 'asddsfasdff', {expiresIn: '10000s'}, (err, token) => {
+
+            if (err) return res.json(err);
+
+            res.header(
+                'authenticationToken', "hello "+ token
+            ).send(token);
         });
-
-        return res.json(jwt_tt);
 
     } catch (error) {
         return response.internalServerError(error);

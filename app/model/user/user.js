@@ -31,8 +31,8 @@ const find = async (id) => {
 	return user;
 }
 
-const store = async (name, email, phone, password) => {
-	const sql = `INSERT INTO users (name, email, phone, password) VALUE ('${name}', '${email}', '${phone}', '${password}')`
+const store = async (name, email, phone, passwordHash) => {
+	const sql = `INSERT INTO users (name, email, phone, password) VALUE ('${name}', '${email}', '${phone}', '${passwordHash}')`
 	return await db.query(sql);
 }
 
