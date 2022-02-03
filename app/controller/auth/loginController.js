@@ -7,8 +7,6 @@ const loginModel = require('../../model/auth/login');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-
-
 router.post('/', async (req, res) => {
     const response = new Response(res);
 
@@ -24,8 +22,6 @@ router.post('/', async (req, res) => {
 
         const login_user = await loginModel.login(email)
 
-        // process.env.ACCESS_TOKEN_SECRET = 'hello';
-
         if (login_user.length == 0) return response.notFound('user not found');
 
         const verified = bcrypt.compareSync(password, login_user[0].password);
@@ -38,13 +34,17 @@ router.post('/', async (req, res) => {
             email: login_user[0].email,
         }
 
-        jwt.sign({user: user}, 'asddsfasdff', {expiresIn: '10000s'}, (err, token) => {
+        const maxAge = 60 * 60 * 24 ;
+
+        jwt.sign({user: user}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: `${maxAge}s`}, (err, token) => {
 
             if (err) return res.json(err);
 
+            res.cookie('jwt', "Bearer "+ token , { maxAge: maxAge * 1000 , httpOnly: true });
+
             res.header(
-                'authenticationToken', "hello "+ token
-            ).send(token);
+                'authenticationToken', "Bearer "+ token
+            ).send('login successfully');
         });
 
     } catch (error) {

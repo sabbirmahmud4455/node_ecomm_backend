@@ -4,14 +4,10 @@ const { validateRequest } = require('../../validation/user/userValidator');
 const Response = require('../../../utils/response');
 const bcrypt = require('bcrypt');
 
-const auth = require('../../middleware/auth')
-
-
 const userModule = require('../../model/user/user');
 
 // get all users
 router.get('/', async (req, res) => {
-
 	const getAll = await userModule.getAll();	
 	res.json(getAll);
 })
