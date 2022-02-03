@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/', (req, res) => {
     res.cookie('jwt', "Bearer" , { maxAge: 1 , httpOnly: true }).send('logout successfully');
     res.header(
-        'authenticationToken', "Bearer "
+        'authenticationToken', ""
     )
 })
 
