@@ -33,13 +33,10 @@ router.post('/', async (req, res) => {
 
 	const passwordHash = bcrypt.hashSync(password, 10);
 
-	res.json(passwordHash);
-
 	const user = await userModule.store(name, email, phone, passwordHash)
-	// return res.json(user);
 
 	return response.created(user);
-
+	
   } catch (error) {
 	const message = error.message ? error.message : 'Server error';
     response.internalServerError({ message });

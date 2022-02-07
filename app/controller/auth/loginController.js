@@ -10,8 +10,6 @@ const bcrypt = require('bcrypt');
 router.post('/', async (req, res) => {
     const response = new Response(res);
 
-    // return res.json(req.body)
-
     const {data, error} = validateRequest(req, 'login');
 
     if (error) return response.badRequest(error);
@@ -41,10 +39,13 @@ router.post('/', async (req, res) => {
             if (err) return res.json(err);
 
             res.cookie('jwt', "Bearer "+ token , { maxAge: maxAge * 1000 , httpOnly: true });
+            res.cookie('user', JSON.stringify(user) , { maxAge: maxAge * 1000 , httpOnly: false });
 
-            res.header(
-                'authenticationToken', "Bearer "+ token
-            ).send('login successfully');
+            return response.ok({
+                "jwt": token,
+                "token_use_header" : "authorization: Bearer "+ token,
+            })
+            res.json('login successfully');
         });
 
     } catch (error) {

@@ -5,10 +5,8 @@ const router = express.Router();
 
 
 router.post('/', (req, res) => {
-    res.cookie('jwt', "Bearer" , { maxAge: 1 , httpOnly: true }).send('logout successfully');
-    res.header(
-        'authenticationToken', ""
-    )
+    res.cookie('jwt', "" , { maxAge: 1 , httpOnly: true });
+    res.cookie('user', "" , { maxAge: 1 , httpOnly: true }).send('logout successfully');
 })
 
 module.exports = router
