@@ -8,6 +8,33 @@ const idColumn = 'id'
 
 const getAll = async () => {
 
+	// const limit = 2;
+
+	// const sss = `SELECT COUNT(*) FROM users WHERE is_active = '1'`;
+
+	// const count = await db.query(sss);
+
+	// const pages = parseInt(count) / parseInt(limit)
+
+	// const paginate = [];
+
+	// for (let index = 0; index < pages.length; index++) {
+	// 	const arr = {
+	// 		page: index + 1,
+	// 		limit: limit,
+	// 		offset: index * parseInt(limit)
+	// 	}
+		
+
+	// 	paginate.push(arr);
+	// }
+
+
+	// return paginate
+
+	// console.log(paginate);
+
+
 	const sql = 
 	`SELECT 
 		id,
