@@ -25,7 +25,7 @@ const getAll = async () => {
 }
 
 const find = async (id) => {
-	const sql = `SELECT * FROM ${tableName} WHERE ${idColumn}=${db.escape(id)}`
+	const sql = `SELECT * FROM ${tableName} WHERE ${idColumn}='${id}'`
 	const user = await db.query(sql);
 
 	return user;

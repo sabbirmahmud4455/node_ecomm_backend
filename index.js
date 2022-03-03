@@ -6,7 +6,7 @@ require('dotenv').config();
 const { registerRoutes } = require('./router/routes');
 const cookieParser = require('cookie-parser')
 
-const port = 3000;
+const port = process.env.server_port ? process.env.server_port : 3000;
 
 // CONFIGURATION
 app.use(express.json());
