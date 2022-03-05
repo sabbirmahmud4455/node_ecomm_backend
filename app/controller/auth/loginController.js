@@ -38,14 +38,14 @@ router.post('/', async (req, res) => {
 
             if (err) return res.json(err);
 
-            res.cookie('jwt', "Bearer "+ token , { maxAge: maxAge * 1000 , httpOnly: true });
+            res.cookie('jwt', "Bearer "+ token , { maxAge: maxAge * 1000, httpOnly: true });
             res.cookie('user', JSON.stringify(user) , { maxAge: maxAge * 1000 , httpOnly: false });
 
-            return response.ok({
+            return response.content({
                 "jwt": token,
                 "token_use_header" : "authorization: Bearer "+ token,
+                "message" : "login successfully"
             })
-            res.json('login successfully');
         });
 
     } catch (error) {

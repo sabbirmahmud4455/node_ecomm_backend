@@ -3,21 +3,33 @@ const router = express.Router();
 const { validateRequest } = require('../../validation/user/userValidator');
 const Response = require('../../../utils/response');
 const bcrypt = require('bcrypt');
-
 const userModule = require('../../model/user/user');
+
+
 
 // get all users
 router.get('/', async (req, res) => {
-	const getAll = await userModule.getAll();	
-	res.json(getAll);
+	const response = new Response(res);
+	try {
+		const getAll = await userModule.getAll();	
+		return response.content(getAll);
+	} catch (error) {
+		return response.internalServerError(error);
+	}
 })
 
 
 //find user by id
 router.get('/:id', async (req, res) => {
+	const response = new Response(res);
 	const id = req.params.id;
-	const user = await userModule.find(id);
-	res.json(user);
+
+	try {
+		const user = await userModule.find(id);
+		return response.content(user)
+	} catch (error) {
+		return response.internalServerError(error);
+	}
 })
 
 //create user
@@ -41,18 +53,15 @@ router.post('/', async (req, res) => {
 	const message = error.message ? error.message : 'Server error';
     response.internalServerError({ message });
   }
-
 })
 
 
 // update user by id
 router.put('/update/:id', async (req, res) => {
-
 	const response = new Response(res);
 	const id = req.params.id;
 
 	try {
-
 		const {data , error } =  validateRequest(req, 'update');
 
 		if (error) return response.badRequest(error);
