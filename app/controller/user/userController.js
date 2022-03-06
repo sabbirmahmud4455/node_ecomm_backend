@@ -6,12 +6,12 @@ const bcrypt = require('bcrypt');
 const userModule = require('../../model/user/user');
 
 
-
 // get all users
 router.get('/', async (req, res) => {
 	const response = new Response(res);
 	try {
-		const getAll = await userModule.getAll();	
+		
+		const getAll = await userModule.paginate(req, 10);	
 		return response.content(getAll);
 	} catch (error) {
 		return response.internalServerError(error);
@@ -76,12 +76,9 @@ router.put('/update/:id', async (req, res) => {
 
 		return response.ok(update);
 
-
 	} catch (error) {
 		return response.internalServerError(error);
 	}
-
-
 })
 
 router.delete('/:id', async (req, res) => {
