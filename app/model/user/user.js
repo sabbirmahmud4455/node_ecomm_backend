@@ -69,7 +69,7 @@ const paginate = async (req, paginate) => {
 		const query_perms = page_count > 1 ? `?page=${index + 1}` : ''
 
 		const paginate_item = {
-			"url" : `http://localhost:3000/user${query_perms}`,
+			"url" : `${req.headers.host+req.originalUrl+query_perms}`,
 			"label" : page_count,
 		};
 		links.push(paginate_item);

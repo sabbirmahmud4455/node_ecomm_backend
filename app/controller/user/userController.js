@@ -9,15 +9,14 @@ const userModule = require('../../model/user/user');
 // get all users
 router.get('/', async (req, res) => {
 	const response = new Response(res);
+	
 	try {
-		
-		const getAll = await userModule.paginate(req, 10);	
+		const getAll = await userModule.paginate(req, 1);	
 		return response.content(getAll);
 	} catch (error) {
 		return response.internalServerError(error);
 	}
 })
-
 
 //find user by id
 router.get('/:id', async (req, res) => {
@@ -54,7 +53,6 @@ router.post('/', async (req, res) => {
     response.internalServerError({ message });
   }
 })
-
 
 // update user by id
 router.put('/update/:id', async (req, res) => {

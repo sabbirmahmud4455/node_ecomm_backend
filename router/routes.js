@@ -13,11 +13,9 @@ const registerRoutes = (app) => {
   
   app.use('/register', registerController);
 
-  
   app.use('/logout', auth, logoutController);
 
-
-
+  // user router
   app.use('/user', auth, userController);
 };
 
