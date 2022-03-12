@@ -24,8 +24,7 @@ module.exports = async function auth(req, res, next) {
     const bear = jwToken.split(' ');
     const bearToken = bear[1];
 
-    req.token = bearToken
-     jwt.verify(req.token, process.env.ACCESS_TOKEN_SECRET, (err, authData) => {
+     jwt.verify(bearToken, process.env.ACCESS_TOKEN_SECRET, (err, authData) => {
         if (err) return response.badRequest('This route protected by authentication token not match');
         res.user = authData;
     })
