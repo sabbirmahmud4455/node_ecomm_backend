@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cookieParser())
 
 // use it before all route definitions
-app.use(cors({origin: 'http://localhost:8080'}));
+app.use(cors({credentials: true, origin: true}));
 
 // ROUTES
 registerRoutes(app);

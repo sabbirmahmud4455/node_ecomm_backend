@@ -1,4 +1,3 @@
-const { links } = require('express/lib/response');
 const db = require('../../../db');
 const tableName = 'users';
 const idColumn = 'id'

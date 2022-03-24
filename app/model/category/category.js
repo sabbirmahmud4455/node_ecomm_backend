@@ -1,6 +1,57 @@
-const db = require('../db');
+const db = require('../../../db');
+const tableName = 'categories';
+const idColumn = 'id'
 
-const paginate = async (tableName ,req, paginate) => {
+
+// create your model methods here
+// ** you may create different model for different db table
+
+const getAll = async () => {
+
+	const sql = 
+	`SELECT c.*, c1.name as parent_name
+	FROM ${tableName} c
+	LEFT JOIN ${tableName} c1
+		ON c.id = c1.parent_id
+		ORDER BY c.position ASC
+		`;
+
+ 	const data = await db.query(sql);
+
+	return data;
+}
+
+const find = async (id) => {
+	const sql = `SELECT * FROM ${tableName} WHERE ${idColumn}='${id}'`
+	const user = await db.query(sql);
+
+	return user;
+}
+
+const store = async (name, email, phone, passwordHash) => {
+	const sql = `INSERT INTO ${tableName} (name, email, phone, password) VALUE ('${name}', '${email}', '${phone}', '${passwordHash}')`
+	return await db.query(sql);
+}
+
+const update = async (id ,name, email, phone) => {
+	const sql = `
+		UPDATE ${tableName} SET 
+			name = '${name}',
+			email = '${email}',
+			phone = '${phone}'
+		WHERE id = ${id}
+	`;
+
+	return await db.query(sql);
+}
+
+const destroy = async (id) => {
+	const sql = `DELETE FROM ${tableName} WHERE id = ${id}`;
+
+	return await db.query(sql);
+}
+
+const paginate = async (req, paginate) => {
 	let query_page = req.query.page
 	let page = paginate > 0 && query_page && query_page > 1 ? query_page : 1
 	let offset = paginate && page ? paginate * (page - 1) : 0
@@ -54,5 +105,13 @@ const paginate = async (tableName ,req, paginate) => {
 }
 
 module.exports = {
-    paginate
+	getAll,
+	find, 
+	store,
+	update,
+	destroy,
+	paginate
 }
+	
+	
+	

@@ -3,6 +3,7 @@ const userController = require('../app/controller/user/userController')
 const loginController = require('../app/controller/auth/loginController')
 const registerController = require('../app/controller/auth/registerController')
 const logoutController = require('../app/controller/auth/logoutController')
+const categoryController = require('../app/controller/category/categoryController');
 const auth = require('../app/middleware/auth')
 
 
@@ -17,6 +18,7 @@ const registerRoutes = (app) => {
 
   // user router
   app.use('/user', auth, userController);
+  app.use('/category', auth, categoryController);
 };
 
 module.exports = {

@@ -11,7 +11,8 @@ router.get('/', async (req, res) => {
 	const response = new Response(res);
 	
 	try {
-		const getAll = await userModule.paginate(req, 100);
+		const getAll = await userModule.getAll();
+
 		return response.content(getAll);
 	} catch (error) {
 		return response.internalServerError(error);
