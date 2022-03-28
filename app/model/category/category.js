@@ -1,3 +1,5 @@
+const moment = require('moment');
+const slugify = require('slugify')
 const db = require('../../../db');
 const tableName = 'categories';
 const idColumn = 'id'
@@ -28,8 +30,10 @@ const find = async (id) => {
 	return user;
 }
 
-const store = async (name, email, phone, passwordHash) => {
-	const sql = `INSERT INTO ${tableName} (name, email, phone, password) VALUE ('${name}', '${email}', '${phone}', '${passwordHash}')`
+const store = async (name, position, show_home, parentCategory, categoryVariant) => {
+	const slug = slugify(name);
+
+	const sql = `INSERT INTO ${tableName} (name, slug, position, is_shown, is_active, parent_id, created_at) VALUE ('${name}', '${slug}', '${position}', '${show_home == "Yes" ? 1 : 0}', '${1}', '${parentCategory}', '${moment().format()}')`
 	return await db.query(sql);
 }
 

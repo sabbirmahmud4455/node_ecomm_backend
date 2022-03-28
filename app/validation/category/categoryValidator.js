@@ -3,11 +3,10 @@ const { validate } = require('../../../utils/request-validator');
 const rules = {
   create: {
     name: { type: 'string', max: 50, empty: false },
-    email: { type: 'email', max: 50, empty: false },
-    phone: { type: 'string',  max: 20, empty: false },
-    // user_role: { type: "number", positive: true, integer: true, empty: false },
-    password: { type: 'string', min: 8, max: 190 ,empty: false },
-    confirm_password: { type: "equal", field: "password"},
+    position: { type: 'string', integer: true, max: 50, empty: false },
+    show_home: { type: 'enum', values: ['Yes', 'No'], empty: true },
+    parentCategory: {type: 'string', integer: true, empty: true},
+    categoryVariant: {type: 'array', items: 'string', integer: true, empty: true},
   },
   update: {
     name: { type: 'string', max: 50, empty: false },
